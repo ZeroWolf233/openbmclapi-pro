@@ -3,6 +3,7 @@
 这是对 [bangbang93](https://github.com/bangbang93) 的 [OpenBMCLAPI](https://github.com/bangbang93/openbmclapi) 项目的修改版
 
 # 特色
+ - ### 一堆灵车功能
  - 基本完全汉化
  - 更多的自定义(如`ua`和`同步线程`)
  - 跳过文件检查和垃圾回收(可选)
