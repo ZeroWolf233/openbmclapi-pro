@@ -1,0 +1,32 @@
+name: 推送Docker Hub
+
+on:
+  push:
+    tags:
+      - '*'  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 设置环境变量
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: 设置 Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: 登录到Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{secrets.HUB_USERNAME}}
+          password: ${{secrets.HUB_PASSWORD}}
+      - name: 编译&推送
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            zerowolf233/mcim
+            zerowolf233/mcim:${{env.RELEASE_VERSION}}
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
