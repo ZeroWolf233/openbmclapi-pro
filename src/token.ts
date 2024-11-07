@@ -8,7 +8,7 @@ export class TokenManager {
   private token: string | undefined
   private readonly got: Got
 
-  private readonly prefixUrl = process.env.CLUSTER_BMCLAPI ?? 'https://files.mcimirror.top'
+  private readonly prefixUrl = process.env.CLUSTER_BMCLAPI ?? 'https://openbmclapi.bangbang93.com'
 
   constructor(
     private readonly clusterId: string,
@@ -18,7 +18,7 @@ export class TokenManager {
     this.got = got.extend({
       prefixUrl: this.prefixUrl,
       headers: {
-        'user-agent': process.env.UA ?? `openmcim-cluster/${version}`,
+        'user-agent': process.env.UA ?? `openbmclapi-cluster/${version}`,
       },
       timeout: {
         request: ms('5m'),

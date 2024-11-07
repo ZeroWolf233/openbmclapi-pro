@@ -13,9 +13,9 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            artifact_name: "openmcim-linux.tar"
+            artifact_name: "openbmclapi-linux.tar"
           - os: windows-latest
-            artifact_name: "openmcim-windows.tar"
+            artifact_name: "openbmclapi-windows.tar"
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -60,8 +60,8 @@ jobs:
           repo_token: "${{ secrets.TOKEN }}"
           prerelease: ${{ contains(github.ref, '-') }}
           files: |
-              openmcim-linux.tar
-              openmcim-windows.tar
+              openbmclapi-linux.tar
+              openbmclapi-windows.tar
 
 
 

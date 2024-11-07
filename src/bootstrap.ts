@@ -15,7 +15,7 @@ import {IFileList} from './types.js'
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 export async function bootstrap(version: string): Promise<void> {
-  logger.info(colors.green(`正在启动 OpenMCIM ${version}`))
+  logger.info(colors.green(`正在启动 OpenBMCLAPI-Pro ${version}`))
   const tokenManager = new TokenManager(config.clusterId, config.clusterSecret, version)
   await tokenManager.getToken()
   const skipfileshacheck = config.skipfileshacheck ?? false;// 获取跳过文件校验布尔值，默认false

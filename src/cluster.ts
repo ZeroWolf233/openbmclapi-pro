@@ -58,7 +58,7 @@ export class Cluster {
   public nginxProcess?: ChildProcess
   public readonly storage: IStorage
 
-  private readonly prefixUrl = process.env.CLUSTER_BMCLAPI ?? 'https://files.mcimirror.top'
+  private readonly prefixUrl = process.env.CLUSTER_BMCLAPI ?? 'https://openbmclapi.bangbang93.com'
   private readonly host?: string
   private _port: number | string
   private readonly publicPort: number
@@ -81,7 +81,7 @@ export class Cluster {
     this.host = config.clusterIp
     this._port = config.port
     this.publicPort = config.clusterPublicPort ?? config.port
-    this.ua = process.env.UA ?? `openmcim-cluster/${version}`
+    this.ua = process.env.UA ?? `openbmclapi-cluster/${version}`
     whiteListDomain.push(this.prefixUrl)
     this.got = got.extend({
       prefixUrl: this.prefixUrl,

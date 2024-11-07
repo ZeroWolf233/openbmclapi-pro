@@ -34,7 +34,7 @@ export class Keepalive {
       clearTimeout(this.timer)
     }
     this.timer = setTimeout(() => {
-      logger.trace('start keep alive')
+      logger.trace('开始保活')
       void this.emitKeepAlive()
     }, this.interval)
   }

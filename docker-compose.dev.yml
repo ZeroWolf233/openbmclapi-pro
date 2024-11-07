@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./opt/mcim:/opt/mcim/cache
+      - ./opt/openbmclapi:/opt/openbmclapi/cache
     network_mode: host
     user: "${UID-1000}:${GID-1000}"
     logging:
