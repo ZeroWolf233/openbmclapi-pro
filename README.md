@@ -1,37 +1,52 @@
-# Node-OpenMCIM
+# OpenBMCLAPI-Pro
 
 这是对 [bangbang93](https://github.com/bangbang93) 的 [OpenBMCLAPI](https://github.com/bangbang93/openbmclapi) 项目的修改版
 
-为了方便上线 OpenMCIM 而修改了部分内容
+# 特色
+ - 基本完全汉化
+ - 更多的自定义(如`ua`和`同步线程`)
+ - 跳过文件检查和垃圾回收(可选)
 
-# 关于OpenMCIM
-借鉴 OpenBMCLAPI 使用网盘缓存的先例，旨在为中国大陆用户提供稳定的 Mod 信息镜像服务并解决国内下载 Mod 速度缓慢的问题。
+# 关于OpenBMCLAPI
+这个项目的主要目的是辅助bmclapi分发文件
+对节点的要求降低了不少
 
-OpenMCIM是对外开放的，所有需要 Minecraft Mod 资源的启动器均可调用。
+1. 公网可访问（端口映射也可），可以非80
+2. 10Mbps以上的上行速度
+3. 暂时不接受国外节点了
+4. 可以长时间稳定在线
+5. 暂不支持IPv6 only(可以双栈)
 
-[OpenMCIM 文件分发相关](https://github.com/mcmod-info-mirror/mcim/issues/91)
+[Wiki](https://github.com/bangbang93/openbmclapi/wiki)
+
+- 如果你是家庭宽带打算参与，配置信息可以参考 [家宽搭建说明](https://github.com/bangbang93/openbmclapi/wiki/%E5%AE%B6%E5%AE%BD%E6%90%AD%E5%BB%BA%E8%AF%B4%E6%98%8E)
+
+- 如果你是国内服务器打算参与，配置信息可以参考 [国内服务器搭建说明](https://github.com/bangbang93/openbmclapi/wiki/%E5%9B%BD%E5%86%85%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA%E8%AF%B4%E6%98%8E)
+
+安装
+---
 
 ## 变量
 
-| 环境变量             |必填 | 默认值        | 说明                                                                                                     |
-|---------------------|-----|--------------|--------------------------------------------------------------------------------------------------------|
-| CLUSTER_ID          | 是  | -            | 节点 ID                                                                                                  |
-| CLUSTER_SECRET      | 是  | -            | 节点密钥                                                                                                   |
-| CLUSTER_IP          | 否  | 自动获取公网出口IP   | 用户访问时使用的 IP 或域名                                                                                        |
-| CLUSTER_PORT        | 否  | 4000         | 监听端口（本地开放的端口）                                                                                                   |
-| CLUSTER_PUBLIC_PORT | 否  | CLUSTER_PORT | 对外端口（用户请求时访问的端口）                                                                                                   |
-| CLUSTER_BYOC        | 否  | false        | 是否使用自定义域名, (BYOC=Bring you own certificate),当使用国内服务器需要备案时, 需要启用这个参数来使用你自己的域名, 并且你需要自己提供ssl termination |
-| ENABLE_NGINX        | 否  | false        | 使用 nginx 提供文件服务                                                                                        |
-| DISABLE_ACCESS_LOG  | 否  | false        | 禁用访问日志输出                                                                                               |
-| ENABLE_UPNP         | 否  | false        | 启用 UPNP 端口映射                                                                                           |
-| CLUSTER_BMCLAPI     | 否  | https://files.mcimirror.top        | 更改上线地址(测试变量)            |
-| CLUSTER_STORAGE     | 否  | files        | 使用其他存储源的类型(默认为本地)            |
-| CLUSTER_STORAGE_OPTIONS | 否  | 无        | 挂载其他存储源的配置项            |
-| SKIP_FILE_SHA_CHECK | 否  | false          | 防止主控SHA爆炸，强制忽略SHA问题上线 |
-| SKIP_SYNC | 否  | false          | 强制跳过所有同步(不推荐) |
-| SKIP_GC | 否  | false          | 跳过GC垃圾自动回收(由 **千时雨** 提供) |
-| THREADS | 否  | 由主控分配         | 同步线程(改太高会被banban) |
-| UA | 否  | openmcim-cluster/${version}         | 获取token和同步的UA |
+| 环境变量             |必填 | 默认值                                | 说明                                                                                                     |
+|---------------------|-----|------------------------------------|--------------------------------------------------------------------------------------------------------|
+| CLUSTER_ID          | 是  | -                                  | 节点 ID                                                                                                  |
+| CLUSTER_SECRET      | 是  | -                                  | 节点密钥                                                                                                   |
+| CLUSTER_IP          | 否  | 自动获取公网出口IP                         | 用户访问时使用的 IP 或域名                                                                                        |
+| CLUSTER_PORT        | 否  | 4000                               | 监听端口（本地开放的端口）                                                                                                   |
+| CLUSTER_PUBLIC_PORT | 否  | CLUSTER_PORT                       | 对外端口（用户请求时访问的端口）                                                                                                   |
+| CLUSTER_BYOC        | 否  | false                              | 是否使用自定义域名, (BYOC=Bring you own certificate),当使用国内服务器需要备案时, 需要启用这个参数来使用你自己的域名, 并且你需要自己提供ssl termination |
+| ENABLE_NGINX        | 否  | false                              | 使用 nginx 提供文件服务                                                                                        |
+| DISABLE_ACCESS_LOG  | 否  | false                              | 禁用访问日志输出                                                                                               |
+| ENABLE_UPNP         | 否  | false                              | 启用 UPNP 端口映射                                                                                           |
+| CLUSTER_BMCLAPI     | 否  | https://openbmclapi.bangbang93.com | 更改上线地址(测试变量)            |
+| CLUSTER_STORAGE     | 否  | files                              | 使用其他存储源的类型(默认为本地)            |
+| CLUSTER_STORAGE_OPTIONS | 否  | 无                                  | 挂载其他存储源的配置项            |
+| SKIP_FILE_SHA_CHECK | 否  | false                              | 防止主控SHA爆炸，强制忽略SHA问题上线 |
+| SKIP_SYNC | 否  | false                              | 强制跳过所有同步(不推荐) |
+| SKIP_GC | 否  | false                              | 跳过GC垃圾自动回收(由 **千时雨** 提供) |
+| THREADS | 否  | 由主控分配                              | 同步线程(改太高会被banban) |
+| UA | 否  | openbmclapi-cluster/${version}     | 获取token和同步的UA |
 
 ### 如果你在源码中发现了其他环境变量, 那么它们是为了方便开发而存在的, 可能会随时修改, 不要在生产环境中使用！
 
@@ -39,8 +54,8 @@ OpenMCIM是对外开放的，所有需要 Minecraft Mod 资源的启动器均可
 在.env中加上
 ```env
 CLUSTER_STORAGE=alist
-CLUSTER_STORAGE_OPTIONS={"url":"http://127.0.0.1:5244/dav","basePath":"mcim","username":"admin","password":"admin" }
-#                                      ↑AList地址(别忘了加/dav)          ↑文件路径         ↑账号(有webdav权限)  ↑密码
+CLUSTER_STORAGE_OPTIONS={"url":"http://127.0.0.1:5244/dav","basePath":"OpenBMCLAPI","username":"admin","password":"admin" }
+#                                      ↑AList地址(别忘了加/dav)              ↑文件路径                ↑账号(有webdav权限)  ↑密码
 ```
 按照需要修改
 
@@ -49,7 +64,7 @@ CLUSTER_STORAGE_OPTIONS={"url":"http://127.0.0.1:5244/dav","basePath":"mcim","us
 如从 Go 端迁移至 Node 端，你Alist里面的目录应该是这样的：
 
 ```file_tree
-mcim/
+OpenBMCLAPI/
 ├── download/
 │   ├── 00/
 │   ├── 01/
@@ -60,14 +75,14 @@ mcim/
 │   ├── 2
 │   └── 3
 ```
-此时你basepath的地址就应该填写"mcim/download"
+此时你basepath的地址就应该填写"OpenBMCLAPI/download"
 
-（即确保 Node-OpenMCIM 程序读取的根目录为有效文件所存储目录）
+（即确保 OpenBMCLAPI 程序读取的根目录为有效文件所存储目录）
 
 
 ### 安装包
 
-从 [Github Release](https://github.com/ZeroWolf233/node-openmcim/releases) 中下载你系统对应的最新版本
+从 [Github Release](https://github.com/ZeroWolf233/openbmclapi-pro/releases) 中下载你系统对应的最新版本
 
 解压，然后根据对应信息，参照上方表格填写.env文件
 
@@ -85,7 +100,7 @@ docker run -d \
 -p ${CLUSTER_PORT}:${CLUSTER_PORT} \
 --restart unless-stop \
 --name mcim \
-zerowolf233/mcim
+zerowolf233/openbmclapi-pro
 ```
 
 ### 从源码安装
@@ -102,7 +117,7 @@ zerowolf233/mcim
 2. Clone 并安装依赖
 
 ```bash
-git clone https://github.com/ZeroWolf233/node-openmcim
+git clone https://github.com/ZeroWolf233/openbmclapi-pro
 cd node-openmcim 
 ## 安装依赖
 npm ci
@@ -131,11 +146,8 @@ CLUSTER_PORT=你的开放端口
 
 ## 致谢
 
-- [**bangbang93**](https://github.com/bangbang93) 基本全是照着bangbang93的源码改的，总之谢谢93！
+- [**bangbang93**](https://github.com/bangbang93) 这原本就是对93项目的改版
 - [**OpenBMCLAPI**](https://github.com/bangbang93/openbmclapi) 项目原型
-- [**OpenMCIM**](https://github.com/mcmod-info-mirror/mcim) 大陆Curseforge&Modrinth镜像源
-- [**SaltWood**](https://github.com/SALTWOOD) OpenMCIM所用主控
-- [**Open93@Home-V3**](https://github.com/SaltWood-Studio/Open93AtHome-V3)
 - [**ZeroWolf233**](https://github.com/ZeroWolf233) 作者，但是fw一个
 - [**Zhang**](https://github.com/Zhang12334) 项目发起 & 程序改写
 - **千时雨** 提供很多对网盘优化的修改思路和代码
