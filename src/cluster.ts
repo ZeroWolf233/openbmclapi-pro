@@ -39,6 +39,7 @@ import type {TokenManager} from './token.js'
 import type {IFileList} from './types.js'
 import {setupUpnp} from './upnp.js'
 import {checkSign, hashToFilename} from './util.js'
+import * as ipPkg from 'ip'
 
 interface ICounters {
   hits: number
@@ -59,7 +60,7 @@ export class Cluster {
   public readonly storage: IStorage
 
   private readonly prefixUrl = process.env.CLUSTER_BMCLAPI ?? 'https://openbmclapi.bangbang93.com'
-  private readonly host?: string
+  private host?: string
   private _port: number | string
   private readonly publicPort: number
   private readonly ua: string
@@ -135,6 +136,12 @@ export class Cluster {
     await this.storage.init?.()
     if (config.enableUpnp) {
       await setupUpnp(config.port, config.clusterPublicPort)
+      const ip = await setupUpnp(config.port, config.clusterPublicPort)
+      if (ipPkg.isPrivate(ip)) {
+        throw new Error(`不对啊，你这IP(${ip})也不是公网IP啊`)
+      }
+      logger.info(`upnp映射成功，公网IP: ${ip}`)
+      this.host ??= ip
     }
   }
 
@@ -523,6 +530,25 @@ export class Cluster {
     }
     await fse.outputFile(join(this.tmpDir, 'cert.pem'), cert.cert)
     await fse.outputFile(join(this.tmpDir, 'key.pem'), cert.key)
+  }
+
+  public async useSelfCert(): Promise<void> {
+    if (!config.sslCert) {
+      throw new Error('你的ssl证书呢？')
+    }
+    if (!config.sslKey) {
+      throw new Error('你的ssl私钥呢？')
+    }
+    if (await fse.pathExists(config.sslCert)) {
+      await fse.copy(config.sslCert, join(this.tmpDir, 'cert.pem'))
+    } else {
+      await fse.outputFile(join(this.tmpDir, 'cert.pem'), config.sslCert)
+    }
+    if (await fse.pathExists(config.sslKey)) {
+      await fse.copy(config.sslKey, join(this.tmpDir, 'key.pem'))
+    } else {
+      await fse.outputFile(join(this.tmpDir, 'key.pem'), config.sslKey)
+    }
   }
 
   public exit(code: number = 0): void {

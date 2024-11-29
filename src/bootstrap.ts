@@ -23,9 +23,6 @@ export async function bootstrap(version: string): Promise<void> {
   await cluster.init()
 
   const storageReady = await cluster.storage.check()
-  if (process.env.SKIP_SYNC) {
-    logger.info('已跳过存储检查，在保活时您将看不到保活的文件大小')
-  }
   if (!storageReady) {
     throw new Error('存储异常');
   }
@@ -51,9 +48,20 @@ export async function bootstrap(version: string): Promise<void> {
   cluster.connect()
   const proto = config.byoc ? 'http' : 'https'
   if (proto === 'https') {
+  let proto: 'http' | 'https' = 'https'
+  if (config.byoc) {
+    // 当BYOC但是没有提供证书时，使用http
+    if (!config.sslCert || !config.sslKey) {
+      proto = 'http'
+    } else {
+      logger.info('使用自定义证书')
+      await cluster.useSelfCert()
+    }
+  } else {
     logger.info('请求证书')
     await cluster.requestCert()
   }
+
   if (config.enableNginx) {
     if (typeof cluster.port === 'number') {
       await cluster.setupNginx(join(__dirname, '..'), cluster.port, proto)
@@ -141,5 +149,6 @@ export async function bootstrap(version: string): Promise<void> {
     process.on('disconnect', () => {
       void onStop('disconnect')
     })
+  }
   }
 }
