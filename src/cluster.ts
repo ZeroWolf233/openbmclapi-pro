@@ -449,7 +449,7 @@ export class Cluster {
       logger.info(msg)
     })
     this.socket.on('connect', () => {
-      logger.debug('断开连接')
+      logger.debug('连接成功')
     })
     this.socket.on('disconnect', (reason) => {
       logger.warn(`与服务器断开连接: ${reason}`)

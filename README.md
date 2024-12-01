@@ -2,6 +2,9 @@
 
 这是对 [bangbang93](https://github.com/bangbang93) 的 [OpenBMCLAPI](https://github.com/bangbang93/openbmclapi) 项目的修改版
 
+> [!Important]
+> 这是非官方版，慎用
+
 # 特色
  - ### 一堆灵车功能
  - 基本完全汉化
