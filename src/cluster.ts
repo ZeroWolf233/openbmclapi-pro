@@ -365,7 +365,7 @@ export class Cluster {
     const confFile = `${dir}/nginx/nginx.conf`
     const templateFile = 'nginx.conf'
     const confTemplate = await readFile(join(__dirname, '..', 'nginx', templateFile), 'utf8')
-    console.log('nginx conf', confFile)
+    logger.debug('nginx conf', confFile)
 
     await fse.copy(join(__dirname, '..', 'nginx'), dirname(confFile), {recursive: true, overwrite: true})
     await fse.outputFile(
@@ -615,7 +615,7 @@ export class Cluster {
   }
 
   private onConnectionError(event: string, err: Error): void {
-    console.error(`${event}: 无法连接至主控`, err)
+    logger.error(`${event}: 无法连接至主控`, err)
     if (this.server) {
       this.server.close(() => {
         this.exit(1)

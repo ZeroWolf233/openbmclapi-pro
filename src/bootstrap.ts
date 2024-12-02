@@ -46,8 +46,6 @@ export async function bootstrap(version: string): Promise<void> {
   }
 
   cluster.connect()
-  const proto = config.byoc ? 'http' : 'https'
-  if (proto === 'https') {
   let proto: 'http' | 'https' = 'https'
   if (config.byoc) {
     // 当BYOC但是没有提供证书时，使用http
@@ -83,8 +81,7 @@ export async function bootstrap(version: string): Promise<void> {
 
     checkFileInterval = setTimeout(() => {
       void checkFile(files).catch((e) => {
-        console.error('检查文件错误')
-        console.error(e)
+        console.error(e, '检查文件错误')
       })
     }, ms('60m'))
   } catch (e) {
@@ -111,8 +108,7 @@ export async function bootstrap(version: string): Promise<void> {
     } finally {
       checkFileInterval = setTimeout(() => {
         checkFile(lastFileList).catch((e) => {
-          console.error('检查文件错误')
-          console.error(e)
+          console.error(e, '检查文件错误')
         })
       }, ms('60m'))
     }
@@ -149,6 +145,5 @@ export async function bootstrap(version: string): Promise<void> {
     process.on('disconnect', () => {
       void onStop('disconnect')
     })
-  }
   }
 }
