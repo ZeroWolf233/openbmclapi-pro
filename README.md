@@ -106,7 +106,7 @@ docker run -d \
 -p ${CLUSTER_PORT}:${CLUSTER_PORT} \
 --restart unless-stop \
 --name mcim \
-zerowolf233/openbmclapi-pro
+zerowolf233/openbmclapi
 ```
 
 ### 从源码安装
