@@ -1,7 +1,7 @@
 version: '3'
 services:
   openbmclapi:
-    image: zerowolf233/openbmclapi-pro
+    image: zerowolf233/openbmclapi
     environment:
       CLUSTER_ID: ${CLUSTER_ID}
       CLUSTER_SECRET: ${CLUSTER_SECRET}
